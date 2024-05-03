@@ -24,4 +24,8 @@ public class SkinType {
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "skinTypes")
     private List<Component> components = new ArrayList<>();
+
+    public SkinType(String name) {
+        this.name = name;
+    }
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 public class CosmeticProperty {
 
     @Id
@@ -24,4 +26,8 @@ public class CosmeticProperty {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cosmeticProperty")
     private List<CosmeticFeature> cosmeticFeatures = new ArrayList<>();
+
+    public CosmeticProperty(String name) {
+        this.name = name;
+    }
 }

@@ -21,7 +21,8 @@ CREATE TABLE component.t_cosmetic_feature(
     id SERIAL PRIMARY KEY,
     component_id INTEGER NOT NULL REFERENCES component.t_component (id),
     cosmetic_property_id INTEGER NOT NULL REFERENCES component.t_cosmetic_property (id),
-    c_value INTEGER NOT NULL CHECK (c_value BETWEEN 0 AND 10)
+    c_value INTEGER NOT NULL CHECK (c_value BETWEEN 0 AND 10),
+    UNIQUE(component_id, cosmetic_property_id)
 );
 
 CREATE TABLE component.t_skin_type(
