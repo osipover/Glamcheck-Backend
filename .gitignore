@@ -1,0 +1,8 @@
+### Intellij IDEA ###
+/.idea
+
+### Environment ###
+*.env
+
+### Maven ###
+target/

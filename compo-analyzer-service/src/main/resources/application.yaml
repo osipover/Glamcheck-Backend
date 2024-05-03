@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/glamcheck
+    username: postgres
+    password: dn7zwfxt
+    driver-class-name: org.postgresql.Driver
+  flyway:
+        enabled: false
+#  flyway:
+#    schemas:
+#      - public
+#      - component
+  jpa:
+    show-sql: true
+server:
+  port: 8080
+logging:
+  level:
+    sql: info
