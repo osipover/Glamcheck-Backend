@@ -20,6 +20,16 @@ public class CosmeticFeature {
     @JoinColumn(name = "cosmetic_property_id")
     private CosmeticProperty cosmeticProperty;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "component_id")
+    private Component component;
+
     @Column(name = "c_value")
     private Integer value;
+
+    public CosmeticFeature(CosmeticProperty cosmeticProperty, Component component, Integer value) {
+        this.cosmeticProperty = cosmeticProperty;
+        this.component = component;
+        this.value = value;
+    }
 }
