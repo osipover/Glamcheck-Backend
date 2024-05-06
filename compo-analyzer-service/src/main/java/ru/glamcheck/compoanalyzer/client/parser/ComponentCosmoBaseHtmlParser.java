@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import ru.glamcheck.compoanalyzer.client.response.ComponentResponse;
 import ru.glamcheck.compoanalyzer.model.dto.CosmeticFeatureDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -49,8 +50,9 @@ public class ComponentCosmoBaseHtmlParser implements ComponentClientHtmlParser {
     }
 
     private List<CosmeticFeatureDto> parseCosmeticFeatures(Document document) {
-        List<CosmeticFeatureDto> features = null;
+        List<CosmeticFeatureDto> features = new ArrayList<>();
         Elements elements = document.select("label:contains(Косметические свойства)");
+
         if (!elements.isEmpty()) {
             features = elements.first().nextElementSibling().children()
                     .stream()
@@ -63,7 +65,7 @@ public class ComponentCosmoBaseHtmlParser implements ComponentClientHtmlParser {
     }
 
     private List<String> parseSkinTypes(Document document) {
-        List<String> skinTypes = null;
+        List<String> skinTypes = new ArrayList<>();
         Elements elements = document.select("label:contains(Эффективен для типов кожи:)");
         if (!elements.isEmpty()) {
             skinTypes = elements.first().nextElementSibling().children()
