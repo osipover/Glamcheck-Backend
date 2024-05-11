@@ -1,9 +1,4 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/glamcheck
-    username: postgres
-    password: dn7zwfxt
-    driver-class-name: org.postgresql.Driver
+
   flyway:
         enabled: false
 #  flyway:

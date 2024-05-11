@@ -3,6 +3,7 @@ package ru.glamcheck.compoanalyzer.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.glamcheck.compoanalyzer.model.dto.ComponentDto;
+import ru.glamcheck.compoanalyzer.model.entity.Component;
 import ru.glamcheck.compoanalyzer.model.mapper.ComponentDtoMapper;
 import ru.glamcheck.compoanalyzer.repository.ComponentRepository;
 
@@ -20,4 +21,5 @@ public class ComponentService {
                     .map(componentDtoMapper)
                     .toList();
     }
+
 }
