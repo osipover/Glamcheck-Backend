@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.glamcheck.compoanalyzer.model.dto.ComponentDto;
+import ru.glamcheck.compoanalyzer.model.entity.Component;
 import ru.glamcheck.compoanalyzer.service.ComponentService;
 
 import java.util.List;
@@ -23,8 +24,8 @@ public class ComponentRestController {
         return ResponseEntity.ok(components);
     }
 
-    @GetMapping("{inci-name}")
-    public ResponseEntity<ComponentDto> findComponentByInciName(@PathVariable("inci-name") String inciName) {
+    @GetMapping("{inciName}")
+    public ResponseEntity<ComponentDto> findComponentByInciName(@PathVariable("inciName") String inciName) {
         ComponentDto component = componentService.findComponentByInciName(inciName);
         return ResponseEntity.ok(component);
         //todo: обработать ошибки

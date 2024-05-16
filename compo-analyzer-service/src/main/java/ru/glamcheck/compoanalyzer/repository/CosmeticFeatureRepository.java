@@ -1,8 +1,9 @@
 package ru.glamcheck.compoanalyzer.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import ru.glamcheck.compoanalyzer.model.entity.CosmeticFeature;
 
-public interface CosmeticFeatureRepository extends JpaRepository<CosmeticFeature, Integer> {
+public interface CosmeticFeatureRepository extends MongoRepository<CosmeticFeature, String> {
 
 }

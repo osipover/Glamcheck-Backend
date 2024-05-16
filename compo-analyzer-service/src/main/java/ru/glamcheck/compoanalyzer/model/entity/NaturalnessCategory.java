@@ -1,26 +1,26 @@
 package ru.glamcheck.compoanalyzer.model.entity;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(schema = "component", name = "t_naturalness_category")
+
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
+@Document("naturalness_category")
 public class NaturalnessCategory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
 
-    @Column(name = "c_name")
-    private String name;
+    @Indexed(unique = true)
+    private String title;
 
-    public NaturalnessCategory(String name) {
-        this.name = name;
+    public NaturalnessCategory(String title) {
+        this.title = title;
     }
 }

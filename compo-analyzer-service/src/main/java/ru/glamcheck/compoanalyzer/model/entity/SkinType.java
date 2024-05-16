@@ -1,29 +1,27 @@
 package ru.glamcheck.compoanalyzer.model.entity;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(schema = "component", name = "t_skin_type")
+
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
+@Document("skin_type")
 public class SkinType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
 
-    @Column(name = "c_name")
+    @Indexed(unique = true)
     private String name;
-
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "skinTypes")
-    private List<Component> components = new ArrayList<>();
 
     public SkinType(String name) {
         this.name = name;

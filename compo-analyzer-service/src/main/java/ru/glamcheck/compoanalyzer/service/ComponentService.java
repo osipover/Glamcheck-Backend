@@ -1,6 +1,9 @@
 package ru.glamcheck.compoanalyzer.service;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.glamcheck.compoanalyzer.client.ComponentClient;
@@ -15,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ComponentService {
 
     private final ComponentRepository componentRepository;
@@ -35,7 +38,7 @@ public class ComponentService {
 
     @Transactional
     public ComponentDto findComponentByInciName(String inciName) {
-        Optional<Component> componentOptional = componentRepository.findByInciName(inciName);
+        Optional<Component> componentOptional = componentRepository.findComponentByInciName(inciName);
         if (componentOptional.isPresent()) {
             return componentDtoMapper.apply(componentOptional.get());
         }

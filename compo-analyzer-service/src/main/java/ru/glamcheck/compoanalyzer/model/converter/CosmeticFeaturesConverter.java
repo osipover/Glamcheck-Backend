@@ -23,9 +23,14 @@ public class CosmeticFeaturesConverter {
         return cosmeticFeatureDtos
                 .stream()
                 .map(dto -> new CosmeticFeature(
+<<<<<<< HEAD
                         cosmeticPropertyRepository.findByName(dto.getProperty())
                                 .orElseGet(() -> cosmeticPropertyRepository.save(new CosmeticProperty(dto.getProperty()))),
                         component,
+=======
+                        cosmeticPropertyRepository.findCosmeticPropertyByName(dto.getProperty())
+                                .orElseGet(() -> cosmeticPropertyRepository.insert(new CosmeticProperty(dto.getProperty()))),
+>>>>>>> d3cc878 (Мигрировал на mongodb)
                         dto.getValue()
                 ))
                 .toList();

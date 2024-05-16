@@ -1,51 +1,39 @@
 package ru.glamcheck.compoanalyzer.model.entity;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(schema = "component", name = "t_component")
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Document("component")
 public class Component {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
 
-    @Column(name = "c_inci_name")
+    @Indexed(unique = true)
     private String inciName;
 
-    @Column(name = "c_danger_factor")
     private Integer dangerFactor;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "naturalness_id")
+    @DBRef
     private NaturalnessCategory naturalness;
 
-    @OneToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.REMOVE
-    }, fetch = FetchType.EAGER)
-    @JoinColumn(name = "component_id")
     private List<CosmeticFeature> cosmeticFeatures = new ArrayList<>();
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST
-    }, fetch = FetchType.EAGER)
-    @JoinTable(
-            schema = "component",
-            name = "t_skin_type_component",
-            joinColumns = @JoinColumn(name = "component_id"),
-            inverseJoinColumns = @JoinColumn(name = "skin_type_id")
-    )
+    @DBRef
     private List<SkinType> skinTypes = new ArrayList<>();
 }

@@ -11,10 +11,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ComponentDto {
-    private Integer id;
+    private String id;
     private String inciName;
     private Integer dangerFactor;
     private String naturalness;
     private List<CosmeticFeatureDto> cosmeticFeatures;
-    private List<SkinTypeDto> skinTypes;
+    private List<String> skinTypes;
 }

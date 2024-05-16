@@ -17,8 +17,13 @@ public class SkinTypesConverter {
         return skinNames
                 .stream()
                 .map(name ->
+<<<<<<< HEAD
                         skinTypeRepository.findByName(name)
                                 .orElseGet(() -> skinTypeRepository.save(new SkinType(name)))
+=======
+                        skinTypeRepository.findSkinTypeByName(name)
+                                .orElseGet(() -> skinTypeRepository.insert(new SkinType(name)))
+>>>>>>> d3cc878 (Мигрировал на mongodb)
                 )
                 .toList();
     }
