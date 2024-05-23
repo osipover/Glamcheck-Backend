@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.glamcheck.compoanalyzer.model.dto.ComponentDto;
 import ru.glamcheck.compoanalyzer.model.entity.Component;
-import ru.glamcheck.compoanalyzer.model.entity.SkinType;
 
 import java.util.function.Function;
 
@@ -13,23 +12,17 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class ComponentDtoMapper implements Function<Component, ComponentDto> {
     private final CosmeticFeatureDtoMapper cosmeticFeatureDtoMapper;
-    private final SkinTypeDtoMapper skinTypeDtoMapper;
 
     @Override
     public ComponentDto apply(Component component) {
-        return new ComponentDto(
-                component.getId(),
-                component.getInciName(),
-                component.getDangerFactor(),
-                component.getNaturalness().getTitle(),
-                component.getCosmeticFeatures()
-                        .stream()
+        return ComponentDto.builder()
+                .inciName(component.getInciName())
+                .dangerFactor(component.getDangerFactor())
+                .naturalness(component.getNaturalness())
+                .cosmeticFeatures(component.getCosmeticFeatures().stream()
                         .map(cosmeticFeatureDtoMapper)
-                        .toList(),
-                component.getSkinTypes()
-                        .stream()
-                        .map(SkinType::getName)
-                        .toList()
-        );
+                        .toList())
+                .skinTypes(component.getSkinTypes())
+                .build();
     }
 }

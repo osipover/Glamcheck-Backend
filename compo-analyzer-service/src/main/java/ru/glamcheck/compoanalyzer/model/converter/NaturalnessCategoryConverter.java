@@ -13,6 +13,7 @@ public class NaturalnessCategoryConverter {
 
     public NaturalnessCategory convertNaturalnessNameToCategory(String naturalnessName) {
         return naturalnessCategoryRepository.findNaturalnessCategoryByTitle(naturalnessName)
-                .orElseGet(() -> new NaturalnessCategory(naturalnessName));
+                .defaultIfEmpty(new NaturalnessCategory(naturalnessName))
+                .block();
     }
 }

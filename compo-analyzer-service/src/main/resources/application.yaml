@@ -4,8 +4,10 @@ spring:
       host: localhost
       port: 27017
       database: component
-  flyway:
-    enabled: true
+  codec:
+    max-in-memory-size: 1MB
 server:
   port: 8080
+
+
 

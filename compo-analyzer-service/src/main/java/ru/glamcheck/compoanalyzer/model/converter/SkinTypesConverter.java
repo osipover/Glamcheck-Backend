@@ -18,7 +18,8 @@ public class SkinTypesConverter {
                 .stream()
                 .map(name ->
                         skinTypeRepository.findSkinTypeByName(name)
-                                .orElseGet(() -> skinTypeRepository.insert(new SkinType(name)))
+                                .switchIfEmpty(skinTypeRepository.save(new SkinType(name)))
+                                .block()
                 )
                 .toList();
     }

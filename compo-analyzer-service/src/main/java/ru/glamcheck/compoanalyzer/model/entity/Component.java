@@ -1,9 +1,6 @@
 package ru.glamcheck.compoanalyzer.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -17,6 +14,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Document("component")
 public class Component {
 
@@ -28,11 +26,9 @@ public class Component {
 
     private Integer dangerFactor;
 
-    @DBRef
-    private NaturalnessCategory naturalness;
+    private String naturalness;
 
     private List<CosmeticFeature> cosmeticFeatures = new ArrayList<>();
 
-    @DBRef
-    private List<SkinType> skinTypes = new ArrayList<>();
+    private List<String> skinTypes = new ArrayList<>();
 }

@@ -15,29 +15,16 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class ComponentFromResponseMapper implements Function<ComponentResponse, Component> {
 
-    private final CosmeticFeaturesConverter cosmeticFeaturesConverter;
-
-    private final SkinTypesConverter skinTypesConverter;
-
-    private final NaturalnessCategoryConverter naturalnessCategoryConverter;
-
     @Override
     public Component apply(ComponentResponse response) {
-        Component component = new Component();
-        component.setInciName(response.getInciName());
-        component.setDangerFactor(response.getDangerFactor());
-
-        NaturalnessCategory naturalness = naturalnessCategoryConverter.convertNaturalnessNameToCategory(response.getNaturalness());
-        component.setNaturalness(naturalness);
-
-        List<CosmeticFeature> features = cosmeticFeaturesConverter.convertCosmeticFeatureDtoToFeatures(
-                response.getCosmeticFeatures(),
-                component);
-        component.setCosmeticFeatures(features);
-
-        List<SkinType> skinTypes = skinTypesConverter.convertSkinNamesToSkinTypes(response.getSkinTypes());
-        component.setSkinTypes(skinTypes);
-
-        return component;
+        return Component.builder()
+                .inciName(response.getInciName())
+                .naturalness(response.getNaturalness())
+                .dangerFactor(response.getDangerFactor())
+                .cosmeticFeatures(response.getCosmeticFeatures().stream()
+                        .map(feature -> new CosmeticFeature(feature.getProperty(), feature.getValue()))
+                        .toList())
+                .skinTypes(response.getSkinTypes())
+                .build();
     }
 }
