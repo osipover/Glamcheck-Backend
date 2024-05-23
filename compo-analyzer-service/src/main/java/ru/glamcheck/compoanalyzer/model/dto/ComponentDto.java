@@ -1,17 +1,15 @@
 package ru.glamcheck.compoanalyzer.model.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import ru.glamcheck.compoanalyzer.model.entity.CosmeticFeature;
 
 import java.util.List;
 
 @Data
+@Builder
 @AllArgsConstructor
-@NoArgsConstructor
 public class ComponentDto {
-    private String id;
     private String inciName;
     private Integer dangerFactor;
     private String naturalness;

@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 import ru.glamcheck.compoanalyzer.client.ComponentClient;
 import ru.glamcheck.compoanalyzer.client.response.ComponentResponse;
 import ru.glamcheck.compoanalyzer.model.dto.ComponentDto;
@@ -29,22 +31,16 @@ public class ComponentService {
 
     private final ComponentFromResponseMapper componentFromResponseMapper;
 
-    public List<ComponentDto> findAllComponents() {
-            return componentRepository.findAll()
-                    .stream()
-                    .map(componentDtoMapper)
-                    .toList();
-    }
-
-    @Transactional
-    public ComponentDto findComponentByInciName(String inciName) {
-        Optional<Component> componentOptional = componentRepository.findComponentByInciName(inciName);
-        if (componentOptional.isPresent()) {
-            return componentDtoMapper.apply(componentOptional.get());
-        }
-        ComponentResponse componentResponse = componentClient.getComponentByInciName(inciName);
-        Component component = componentFromResponseMapper.apply(componentResponse);
-        componentRepository.save(component);
-        return componentDtoMapper.apply(component);
+    public Mono<ComponentDto> findComponentByInciName(String inciName) {
+        return componentRepository.findComponentByInciNameIgnoreCase(inciName)
+                .switchIfEmpty(componentClient.getComponentByInciName(inciName)
+                        .flatMap(componentResponse -> {
+                            Component component = componentFromResponseMapper.apply(componentResponse);
+                            componentRepository.save(component)
+                                    .subscribeOn(Schedulers.boundedElastic())
+                                    .subscribe();
+                            return Mono.just(component);
+                        }))
+                .map(componentDtoMapper);
     }
 }

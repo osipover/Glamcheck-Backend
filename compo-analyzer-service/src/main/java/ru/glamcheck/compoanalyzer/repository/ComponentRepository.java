@@ -1,12 +1,12 @@
 package ru.glamcheck.compoanalyzer.repository;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import reactor.core.publisher.Mono;
 import ru.glamcheck.compoanalyzer.model.entity.Component;
 
-import java.util.Optional;
 
-public interface ComponentRepository extends MongoRepository<Component, String> {
+public interface ComponentRepository extends ReactiveCrudRepository<Component, String> {
 
-    Optional<Component> findComponentByInciName(String inciName);
+    Mono<Component> findComponentByInciNameIgnoreCase(String inciName);
 
 }

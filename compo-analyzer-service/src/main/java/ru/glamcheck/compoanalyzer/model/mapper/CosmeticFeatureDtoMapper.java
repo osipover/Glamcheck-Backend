@@ -11,7 +11,7 @@ public class CosmeticFeatureDtoMapper implements Function<CosmeticFeature, Cosme
     @Override
     public CosmeticFeatureDto apply(CosmeticFeature cosmeticFeature) {
         return new CosmeticFeatureDto(
-                cosmeticFeature.getCosmeticProperty().getName(),
+                cosmeticFeature.getCosmeticProperty(),
                 cosmeticFeature.getValue()
         );
     }
