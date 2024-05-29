@@ -11,6 +11,6 @@ public class CosmeticFeature {
 
     private String cosmeticProperty;
 
-    private Integer value;
+    private Double value;
 
 }

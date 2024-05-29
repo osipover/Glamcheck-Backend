@@ -58,7 +58,7 @@ public class ComponentCosmoBaseHtmlParser implements ComponentClientHtmlParser {
                     .stream()
                     .map(e -> new CosmeticFeatureDto(
                             e.child(0).text(),
-                            Integer.parseInt(e.child(1).text())
+                            Double.parseDouble(e.child(1).text())
                     )).toList();
         }
         return features;

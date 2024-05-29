@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,6 +14,6 @@ import java.util.Set;
 public class StructureAnalysisDto {
     private String naturalness;
     private double dangerFactor;
-    private Map<String, Double> cosmeticFeatures;
+    private List<CosmeticFeatureDto> cosmeticFeatures;
     private Set<String> skinTypes;
 }

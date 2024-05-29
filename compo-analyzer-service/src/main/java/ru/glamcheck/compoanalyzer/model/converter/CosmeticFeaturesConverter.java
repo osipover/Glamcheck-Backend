@@ -15,28 +15,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CosmeticFeaturesConverter {
 
-<<<<<<< HEAD
-    private final CosmeticFeatureRepository cosmeticFeatureRepository;
-
-    private final CosmeticPropertyRepository cosmeticPropertyRepository;
-
-    public List<CosmeticFeature> convertCosmeticFeatureDtoToFeatures(List<CosmeticFeatureDto> cosmeticFeatureDtos, Component component) {
-        return cosmeticFeatureDtos
-                .stream()
-                .map(dto -> new CosmeticFeature(
-<<<<<<< HEAD
-                        cosmeticPropertyRepository.findByName(dto.getProperty())
-                                .orElseGet(() -> cosmeticPropertyRepository.save(new CosmeticProperty(dto.getProperty()))),
-                        component,
-=======
-                        cosmeticPropertyRepository.findCosmeticPropertyByName(dto.getProperty())
-                                .orElseGet(() -> cosmeticPropertyRepository.insert(new CosmeticProperty(dto.getProperty()))),
->>>>>>> d3cc878 (Мигрировал на mongodb)
-                        dto.getValue()
-                ))
-                .toList();
-    }
-=======
 //    private final CosmeticPropertyRepository cosmeticPropertyRepository;
 //
 //    public List<CosmeticFeature> convertCosmeticFeatureDtoToFeatures(List<CosmeticFeatureDto> cosmeticFeatureDtos, Component component) {
@@ -50,5 +28,4 @@ public class CosmeticFeaturesConverter {
 //                ))
 //                .toList();
 //    }
->>>>>>> d735fd6 (Реализовал реактивный поиск компонента с асинхронным добавлением компонента в базу)
 }

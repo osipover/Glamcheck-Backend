@@ -7,6 +7,7 @@ import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 import ru.glamcheck.compoanalyzer.controller.payload.StructurePayload;
 import ru.glamcheck.compoanalyzer.model.dto.ComponentDto;
+import ru.glamcheck.compoanalyzer.model.dto.CosmeticFeatureDto;
 import ru.glamcheck.compoanalyzer.model.dto.StructureAnalysisDto;
 
 import java.util.*;
@@ -28,7 +29,7 @@ public class StructureService {
                 Mono<Double> dangerFactorAvgMono = Mono.fromCallable(() -> calcDangerFactorAvg(componentsList))
                 .subscribeOn(Schedulers.parallel());
 
-                Mono<Map<String, Double>> cosmeticFeaturesMono = Mono.fromCallable(() -> aggregateCosmeticFeatures(componentsList))
+                Mono<List<CosmeticFeatureDto>> cosmeticFeaturesMono = Mono.fromCallable(() -> aggregateCosmeticFeatures(componentsList))
                 .subscribeOn(Schedulers.parallel());
 
                 Mono<Set<String>> skinTypesMono = Mono.fromCallable(() -> aggregateSkinTypes(componentsList))
@@ -38,7 +39,7 @@ public class StructureService {
                     .map(tuple -> {
                         String naturaless = tuple.getT1();
                         double dangerFactorAvg = tuple.getT2();
-                        Map<String, Double> cosmeticFeatures = tuple.getT3();
+                        List<CosmeticFeatureDto> cosmeticFeatures = tuple.getT3();
                         Set<String> skinTypes = tuple.getT4();
                         return new StructureAnalysisDto(naturaless, dangerFactorAvg, cosmeticFeatures, skinTypes);
                     });
@@ -70,16 +71,16 @@ public class StructureService {
                 .orElse(0);
     }
 
-    private Map<String, Double> aggregateCosmeticFeatures(List<ComponentDto> componentDtos) {
-        Map<String, List<Integer>> cosmeticFeaturesBuffer = new HashMap<>();
+    private List<CosmeticFeatureDto> aggregateCosmeticFeatures(List<ComponentDto> componentDtos) {
+        Map<String, List<Double>> cosmeticFeaturesBuffer = new HashMap<>();
         componentDtos.forEach(componentDto ->
                 componentDto.getCosmeticFeatures().forEach(cosmeticFeature ->
                         cosmeticFeaturesBuffer.computeIfAbsent(cosmeticFeature.getProperty(), k -> new ArrayList<>())
                                 .add(cosmeticFeature.getValue())));
-        Map<String, Double> cosmeticFeatures = new HashMap<>();
+        List<CosmeticFeatureDto> cosmeticFeatures = new ArrayList<>();
         cosmeticFeaturesBuffer.forEach((key, values) -> {
-            double averageValue = Math.floor(values.stream().mapToInt(Integer::intValue).average().orElse(0));
-            cosmeticFeatures.put(key, averageValue);
+            double averageValue = Math.floor(values.stream().mapToDouble(Double::doubleValue).average().orElse(0));
+            cosmeticFeatures.add(new CosmeticFeatureDto(key, averageValue));
         });
         return cosmeticFeatures;
     }

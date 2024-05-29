@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CosmeticFeatureDto {
     private String property;
-    private Integer value;
+    private Double value;
 }
