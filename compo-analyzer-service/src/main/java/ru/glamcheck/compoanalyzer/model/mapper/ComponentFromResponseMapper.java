@@ -18,7 +18,7 @@ public class ComponentFromResponseMapper implements Function<ComponentResponse, 
     @Override
     public Component apply(ComponentResponse response) {
         return Component.builder()
-                .inciName(response.getInciName())
+                .latinName(response.getInciName())
                 .naturalness(response.getNaturalness())
                 .dangerFactor(response.getDangerFactor())
                 .cosmeticFeatures(response.getCosmeticFeatures().stream()

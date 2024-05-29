@@ -10,7 +10,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class ComponentDto {
-    private String inciName;
+    private String latinName;
     private Integer dangerFactor;
     private String naturalness;
     private List<CosmeticFeatureDto> cosmeticFeatures;
