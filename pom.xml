@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>compo-analyzer-service</module>
+        <module>structure-analyzer-service</module>
     </modules>
 
     <properties>

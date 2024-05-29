@@ -15,10 +15,9 @@ import ru.glamcheck.compoanalyzer.service.ComponentService;
 public class ComponentRestController {
     private final ComponentService componentService;
 
-    @GetMapping("{inciName}")
-    public Mono<ComponentDto> findComponentByInciName(@PathVariable("inciName") String inciName) {
-        return componentService.findComponentByInciName(inciName);
-        //todo: обработать ошибки
+    @GetMapping("{latinName}")
+    public Mono<ComponentDto> findComponentByLatinName(@PathVariable("latinName") String latinName) {
+        return componentService.findComponentByLatinName(latinName);
     }
 
 }

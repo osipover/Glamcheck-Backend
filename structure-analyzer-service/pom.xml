@@ -9,7 +9,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>compo-analyzer-service</artifactId>
+    <artifactId>structure-analyzer-service</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

@@ -10,9 +10,10 @@ import java.util.Set;
 @Data
 @Builder
 @AllArgsConstructor
-public class StructureAnalysisDto {
+public class CompositionAnalysisDto {
     private String naturalness;
     private double dangerFactor;
     private List<CosmeticFeatureDto> cosmeticFeatures;
     private Set<String> skinTypes;
+    private List<String> notFoundComponents;
 }

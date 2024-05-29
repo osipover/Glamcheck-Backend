@@ -3,8 +3,8 @@ package ru.glamcheck.compoanalyzer.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-import ru.glamcheck.compoanalyzer.controller.payload.StructurePayload;
-import ru.glamcheck.compoanalyzer.service.StructureService;
+import ru.glamcheck.compoanalyzer.controller.payload.CompositionPayload;
+import ru.glamcheck.compoanalyzer.service.CompositionService;
 
 @RestController
 @RequiredArgsConstructor
@@ -12,10 +12,10 @@ import ru.glamcheck.compoanalyzer.service.StructureService;
 @CrossOrigin(origins = "http://localhost:3000")
 public class CompositionRestController {
 
-    private final StructureService structureService;
+    private final CompositionService structureService;
 
     @GetMapping("analysis")
-    public Mono<?> getCosmeticsAnalysis(@RequestBody StructurePayload structure) {
-        return structureService.analizeStructure(structure);
+    public Mono<?> getCosmeticsAnalysis(@RequestBody CompositionPayload compositionPayload) {
+        return structureService.analyzeComposition(compositionPayload.structure());
     }
 }

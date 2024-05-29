@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 import ru.glamcheck.compoanalyzer.client.ComponentClient;
+import ru.glamcheck.compoanalyzer.client.exception.ComponentNotFoundException;
 import ru.glamcheck.compoanalyzer.model.dto.ComponentDto;
 import ru.glamcheck.compoanalyzer.model.entity.Component;
 import ru.glamcheck.compoanalyzer.model.mapper.ComponentDtoMapper;
@@ -23,9 +24,9 @@ public class ComponentService {
 
     private final ComponentFromResponseMapper componentFromResponseMapper;
 
-    public Mono<ComponentDto> findComponentByInciName(String inciName) {
-        return componentRepository.findFirstByLatinNameIgnoreCase(inciName)
-                .switchIfEmpty(componentClient.getComponentByInciName(inciName)
+    public Mono<ComponentDto> findComponentByLatinName(String latinName) throws ComponentNotFoundException {
+        return componentRepository.findFirstByLatinNameIgnoreCase(latinName)
+                .switchIfEmpty(componentClient.getComponentByLatinName(latinName)
                         .flatMap(componentResponse -> {
                             Component component = componentFromResponseMapper.apply(componentResponse);
                             componentRepository.save(component)
