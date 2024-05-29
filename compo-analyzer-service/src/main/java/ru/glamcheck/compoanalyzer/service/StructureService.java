@@ -29,6 +29,7 @@ public class StructureService {
                 Mono<Double> dangerFactorAvgMono = Mono.fromCallable(() -> calcDangerFactorAvg(componentsList))
                 .subscribeOn(Schedulers.parallel());
 
+
                 Mono<List<CosmeticFeatureDto>> cosmeticFeaturesMono = Mono.fromCallable(() -> aggregateCosmeticFeatures(componentsList))
                 .subscribeOn(Schedulers.parallel());
 
@@ -77,6 +78,7 @@ public class StructureService {
                 componentDto.getCosmeticFeatures().forEach(cosmeticFeature ->
                         cosmeticFeaturesBuffer.computeIfAbsent(cosmeticFeature.getProperty(), k -> new ArrayList<>())
                                 .add(cosmeticFeature.getValue())));
+
         List<CosmeticFeatureDto> cosmeticFeatures = new ArrayList<>();
         cosmeticFeaturesBuffer.forEach((key, values) -> {
             double averageValue = Math.floor(values.stream().mapToDouble(Double::doubleValue).average().orElse(0));
