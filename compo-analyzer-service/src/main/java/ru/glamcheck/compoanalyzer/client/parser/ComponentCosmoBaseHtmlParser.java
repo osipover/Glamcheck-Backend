@@ -15,14 +15,14 @@ public class ComponentCosmoBaseHtmlParser implements ComponentClientHtmlParser {
 
     @Override
     public ComponentResponse apply(Document document) {
-        String inciName = parseInciName(document);
+        String latinName = parseLatinName(document);
         Integer dangerFactor = parseDangerFactor(document);
         String naturalness = parseNaturalness(document);
         List<CosmeticFeatureDto> features = parseCosmeticFeatures(document);
         List<String> skinTypes = parseSkinTypes(document);
 
         return new ComponentResponse(
-                inciName,
+                latinName,
                 dangerFactor,
                 naturalness,
                 features,
@@ -30,8 +30,8 @@ public class ComponentCosmoBaseHtmlParser implements ComponentClientHtmlParser {
         );
     }
 
-    private String parseInciName(Document document) {
-        return document.select(".componentName").last().text();
+    private String parseLatinName(Document document) {
+        return document.select(".componentName").get(1).text();
     }
 
     private Integer parseDangerFactor(Document document) {

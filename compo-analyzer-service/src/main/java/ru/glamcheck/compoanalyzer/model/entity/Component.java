@@ -23,7 +23,7 @@ public class Component {
     private String id;
 
     @Indexed(unique = true)
-    private String inciName;
+    private String latinName;
 
     private Integer dangerFactor;
 

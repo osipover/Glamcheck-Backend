@@ -8,6 +8,7 @@ import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -15,6 +16,7 @@ import ru.glamcheck.compoanalyzer.client.parser.ComponentClientHtmlParser;
 import ru.glamcheck.compoanalyzer.client.response.ComponentResponse;
 
 import java.io.IOException;
+import java.net.URI;
 
 @Component
 @Data
@@ -33,7 +35,7 @@ public class WebComponentCosmoBaseClient implements ComponentClient {
     public Mono<ComponentResponse> getComponentByInciName(String inciName) {
         return webClient
                 .get()
-                .uri("/handbook/show/{inciName}", inciName)
+                .uri(baseUrl + inciName)
                 .retrieve()
                 .bodyToMono(String.class)
                 .map(Jsoup::parse)

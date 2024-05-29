@@ -16,7 +16,7 @@ public class ComponentDtoMapper implements Function<Component, ComponentDto> {
     @Override
     public ComponentDto apply(Component component) {
         return ComponentDto.builder()
-                .inciName(component.getInciName())
+                .latinName(component.getLatinName())
                 .dangerFactor(component.getDangerFactor())
                 .naturalness(component.getNaturalness())
                 .cosmeticFeatures(component.getCosmeticFeatures().stream()

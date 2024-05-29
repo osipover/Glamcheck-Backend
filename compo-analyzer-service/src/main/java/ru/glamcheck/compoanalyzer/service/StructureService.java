@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 import ru.glamcheck.compoanalyzer.controller.payload.StructurePayload;
 import ru.glamcheck.compoanalyzer.model.dto.ComponentDto;
 import ru.glamcheck.compoanalyzer.model.dto.StructureAnalysisDto;
@@ -18,19 +19,43 @@ public class StructureService {
     private final ComponentService componentService;
 
     public Mono<?> analizeStructure(StructurePayload structurePayload) {
-        String[] inciNames = structurePayload.structure().split("\\s*[;,]\\s*");
+        String[] inciNames = extractInciNames(structurePayload);
         Flux<ComponentDto> components = Flux.fromArray(inciNames).flatMap(componentService::findComponentByInciName);
-        Mono<StructureAnalysisDto> structureAnalysisDto = components.collectList().map(componentsList -> {
-            String naturaless = aggregateNaturalness(componentsList);
-            double dangerFactorAvg = calcDangerFactorAvg(componentsList);
-            Map<String, Double> cosmeticFeatures = aggregateCosmeticFeatures(componentsList);
-            Set<String> skinTypes = aggregateSkinTypes(componentsList);
-            return new StructureAnalysisDto(naturaless, dangerFactorAvg, cosmeticFeatures, skinTypes);
+        return components.collectList().flatMap(componentsList -> {
+                Mono<String> naturalessMono = Mono.fromCallable(() -> aggregateNaturaless(componentsList))
+                        .subscribeOn(Schedulers.parallel());
+
+                Mono<Double> dangerFactorAvgMono = Mono.fromCallable(() -> calcDangerFactorAvg(componentsList))
+                .subscribeOn(Schedulers.parallel());
+
+                Mono<Map<String, Double>> cosmeticFeaturesMono = Mono.fromCallable(() -> aggregateCosmeticFeatures(componentsList))
+                .subscribeOn(Schedulers.parallel());
+
+                Mono<Set<String>> skinTypesMono = Mono.fromCallable(() -> aggregateSkinTypes(componentsList))
+                .subscribeOn(Schedulers.parallel());
+
+                return Mono.zip(naturalessMono, dangerFactorAvgMono, cosmeticFeaturesMono, skinTypesMono)
+                    .map(tuple -> {
+                        String naturaless = tuple.getT1();
+                        double dangerFactorAvg = tuple.getT2();
+                        Map<String, Double> cosmeticFeatures = tuple.getT3();
+                        Set<String> skinTypes = tuple.getT4();
+                        return new StructureAnalysisDto(naturaless, dangerFactorAvg, cosmeticFeatures, skinTypes);
+                    });
         });
-        return structureAnalysisDto;
     }
 
-    private String aggregateNaturalness(List<ComponentDto> componentDtos) {
+    private String[] extractInciNames(StructurePayload structurePayload) {
+        return Arrays.stream(structurePayload.structure().split("\\s*[;,]\\s*"))
+                .parallel()
+                .map(String::trim)
+                .map(String::toUpperCase)
+                .distinct()
+                .map(str -> str.replace(' ', '_'))
+                .toArray(String[]::new);
+    }
+
+    private String aggregateNaturaless(List<ComponentDto> componentDtos) {
         return componentDtos.stream()
                 .map(ComponentDto::getNaturalness)
                 .anyMatch(str -> str.equals("Синтетический"))
