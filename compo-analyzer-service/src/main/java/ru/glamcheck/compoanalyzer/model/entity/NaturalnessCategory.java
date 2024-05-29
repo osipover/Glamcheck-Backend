@@ -19,4 +19,8 @@ public class NaturalnessCategory {
 
     @Column(name = "c_name")
     private String name;
+
+    public NaturalnessCategory(String name) {
+        this.name = name;
+    }
 }

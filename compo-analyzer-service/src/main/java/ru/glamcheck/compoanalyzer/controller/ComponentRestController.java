@@ -23,4 +23,10 @@ public class ComponentRestController {
         return ResponseEntity.ok(components);
     }
 
+    @GetMapping("{inci-name}")
+    public ResponseEntity<ComponentDto> findComponentByInciName(@PathVariable("inci-name") String inciName) {
+        ComponentDto component = componentService.findComponentByInciName(inciName);
+        return ResponseEntity.ok(component);
+        //todo: обработать ошибки
+    }
 }
