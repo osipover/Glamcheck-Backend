@@ -7,14 +7,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import ru.glamcheck.compoanalyzer.controller.payload.StructurePayload;
+import ru.glamcheck.compoanalyzer.service.StructureService;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/composition")
 public class CompositionRestController {
 
-//    @GetMapping("analysis")
-//    public Mono<Void> getCosmeticsAnalysis(@RequestBody StructurePayload structure) {
-//
-//    }
+    private final StructureService structureService;
+
+    @GetMapping("analysis")
+    public Mono<?> getCosmeticsAnalysis(@RequestBody StructurePayload structure) {
+        return structureService.analizeStructure(structure);
+    }
 }

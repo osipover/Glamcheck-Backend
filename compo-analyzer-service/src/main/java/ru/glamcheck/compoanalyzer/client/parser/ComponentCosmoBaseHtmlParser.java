@@ -35,7 +35,7 @@ public class ComponentCosmoBaseHtmlParser implements ComponentClientHtmlParser {
     }
 
     private Integer parseDangerFactor(Document document) {
-        return Integer.parseInt(document.select("[class~=(low|middle|high)Factor]")
+        return Integer.parseInt(document.select("[class~=(low|medium|high)Factor]")
                 .first()
                 .child(0)
                 .text());
