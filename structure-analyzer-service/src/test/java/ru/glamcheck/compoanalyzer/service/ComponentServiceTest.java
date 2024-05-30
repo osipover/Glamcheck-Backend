@@ -41,7 +41,7 @@ class ComponentServiceTest {
     ComponentService componentService;
 
     @Test
-    void findComponentByLatinName_ComponentDoesNotExistInRepository_ReturnsComponentDtoFromClient() {
+    void findComponentByLatinName_componentDoesNotExistInRepository_returnsComponentDtoFromClient() {
         // Arrange
         String latinName = "GLYCINE";
         ComponentResponse componentResponse = new ComponentResponse(
@@ -80,7 +80,7 @@ class ComponentServiceTest {
     }
 
     @Test
-    void findComponentByLatinName_ComponentExistsInRepository_ReturnsComponentDtoFromRepository() {
+    void findComponentByLatinName_componentExistsInRepository_returnsComponentDtoFromRepository() {
         // Arrange
         String latinName = "GLYCINE";
         Component component = Component.builder()
