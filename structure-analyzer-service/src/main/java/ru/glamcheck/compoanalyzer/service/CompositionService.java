@@ -6,7 +6,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 import ru.glamcheck.compoanalyzer.client.exception.ComponentNotFoundException;
-import ru.glamcheck.compoanalyzer.controller.payload.CompositionPayload;
 import ru.glamcheck.compoanalyzer.model.dto.ComponentDto;
 import ru.glamcheck.compoanalyzer.model.dto.CosmeticFeatureDto;
 import ru.glamcheck.compoanalyzer.model.dto.CompositionAnalysisDto;
@@ -20,7 +19,7 @@ public class CompositionService {
 
     private final ComponentService componentService;
 
-    public Mono<?> analyzeComposition(String composition) {
+    public Mono<CompositionAnalysisDto> analyzeComposition(String composition) {
         String[] latinNames = extractLatinNames(composition);
         List<String> notFoundComponents = new ArrayList<>();
         Flux<ComponentDto> components = Flux.fromArray(latinNames)

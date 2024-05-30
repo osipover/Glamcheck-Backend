@@ -1,7 +1,0 @@
-package ru.glamcheck.compoanalyzer.controller;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-class CompositionRestControllerTest {
-
-}

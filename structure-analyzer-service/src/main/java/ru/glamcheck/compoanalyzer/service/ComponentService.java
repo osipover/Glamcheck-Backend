@@ -26,14 +26,14 @@ public class ComponentService {
 
     public Mono<ComponentDto> findComponentByLatinName(String latinName) throws ComponentNotFoundException {
         return componentRepository.findFirstByLatinNameIgnoreCase(latinName)
-                .switchIfEmpty(componentClient.getComponentByLatinName(latinName)
+                .switchIfEmpty(Mono.defer(() -> componentClient.getComponentByLatinName(latinName)
                         .flatMap(componentResponse -> {
                             Component component = componentFromResponseMapper.apply(componentResponse);
                             componentRepository.save(component)
                                     .subscribeOn(Schedulers.boundedElastic())
                                     .subscribe();
                             return Mono.just(component);
-                        }))
+                        })))
                 .map(componentDtoMapper);
     }
 }

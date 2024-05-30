@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 import ru.glamcheck.compoanalyzer.controller.payload.CompositionPayload;
+import ru.glamcheck.compoanalyzer.model.dto.CompositionAnalysisDto;
 import ru.glamcheck.compoanalyzer.service.CompositionService;
 
 @RestController
@@ -15,7 +16,7 @@ public class CompositionRestController {
     private final CompositionService structureService;
 
     @GetMapping("analysis")
-    public Mono<?> getCosmeticsAnalysis(@RequestBody CompositionPayload compositionPayload) {
+    public Mono<CompositionAnalysisDto> getCosmeticsAnalysis(@RequestBody CompositionPayload compositionPayload) {
         return structureService.analyzeComposition(compositionPayload.structure());
     }
 }

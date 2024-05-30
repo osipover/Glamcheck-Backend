@@ -4,6 +4,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
+import ru.glamcheck.compoanalyzer.client.parser.exception.ImpossibleParseComponentException;
 import ru.glamcheck.compoanalyzer.client.response.ComponentResponse;
 import ru.glamcheck.compoanalyzer.model.dto.CosmeticFeatureDto;
 
@@ -15,19 +16,23 @@ public class ComponentCosmoBaseHtmlParser implements ComponentClientHtmlParser {
 
     @Override
     public ComponentResponse apply(Document document) {
-        String latinName = parseLatinName(document);
-        Integer dangerFactor = parseDangerFactor(document);
-        String naturalness = parseNaturalness(document);
-        List<CosmeticFeatureDto> features = parseCosmeticFeatures(document);
-        List<String> skinTypes = parseSkinTypes(document);
+        try {
+            String latinName = parseLatinName(document);
+            Integer dangerFactor = parseDangerFactor(document);
+            String naturalness = parseNaturalness(document);
+            List<CosmeticFeatureDto> features = parseCosmeticFeatures(document);
+            List<String> skinTypes = parseSkinTypes(document);
 
-        return new ComponentResponse(
-                latinName,
-                dangerFactor,
-                naturalness,
-                features,
-                skinTypes
-        );
+            return new ComponentResponse(
+                    latinName,
+                    dangerFactor,
+                    naturalness,
+                    features,
+                    skinTypes
+            );
+        } catch (Exception e) {
+            throw new ImpossibleParseComponentException("Невозможно распарсить страницу: " + e.getMessage());
+        }
     }
 
     private String parseLatinName(Document document) {
@@ -71,6 +76,7 @@ public class ComponentCosmoBaseHtmlParser implements ComponentClientHtmlParser {
             skinTypes = elements.first().nextElementSibling().children()
                     .stream()
                     .map(Element::text)
+                    .filter(str -> !str.isEmpty())
                     .toList();
         }
         return skinTypes;
