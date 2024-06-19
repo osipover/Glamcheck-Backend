@@ -12,7 +12,7 @@ import ru.glamcheck.compoanalyzer.service.ComponentService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/component")
-public class ComponentRestController {
+public class ComponentController {
     private final ComponentService componentService;
 
     @GetMapping("{latinName}")
